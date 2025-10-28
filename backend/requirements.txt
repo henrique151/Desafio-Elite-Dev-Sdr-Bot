@@ -10,4 +10,5 @@ requests
 uvicorn
 python-dotenv
 sqlalchemy
+dateparser
 packaging
