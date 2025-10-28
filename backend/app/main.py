@@ -11,7 +11,7 @@ app.add_middleware(
     allow_origins=[
         "https://desafio-elite-dev-sdr-bot.vercel.app",
         "https://desafio-elite-dev-sdr-bot-git-main-henrique151s-projects.vercel.app",
-        "https://desafio-elite-dev-sdr-h3by0jpnt-henrique151s-projects.vercel.app",
+        "https://desafio-elite-dev-sdr-f0xpxcqd9-henrique151s-projects.vercel.app",
         "http://localhost:3000",
     ],
     allow_credentials=True,
