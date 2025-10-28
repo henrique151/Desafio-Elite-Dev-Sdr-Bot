@@ -7,17 +7,19 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(title="SDR Elite Dev API")
 
 origins = [
+    "https://desafio-elite-dev-sdr-bot.vercel.app",
+    "desafio-elite-dev-sdr-bot-git-main-henrique151s-projects.vercel.app",
+    "https://desafio-elite-dev-sdr-puk1vnj0g-henrique151s-projects.vercel.app",
     "http://localhost:3000",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # permite qualquer origem
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ===========================
 # Endpoint raiz
 # ===========================
