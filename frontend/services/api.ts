@@ -1,5 +1,5 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 export interface AgentResponse {
     response: string;
     history: any[];
@@ -10,7 +10,7 @@ export async function sendMessageToAPI(
     sessionId: string,
     history: any[]
 ): Promise<AgentResponse> {
-    const res = await fetch(`${BASE_URL}/chat`, {
+    const res = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, session_id: sessionId, history }),
