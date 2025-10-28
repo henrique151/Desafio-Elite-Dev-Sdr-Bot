@@ -22,22 +22,25 @@ TOKEN_FILE = os.getenv("GOOGLE_OAUTH_TOKEN", "app/credentials/token.pkl")
 TIMEZONE = "America/Sao_Paulo"
 
 
+
 def get_google_calendar_service():
+    # Pega o JSON completo da variável de ambiente
     key_content = os.environ.get("GOOGLE_SERVICE_ACCOUNT_KEY")
     if not key_content:
         raise ValueError(
-            "A variável de ambiente GOOGLE_SERVICE_ACCOUNT_KEY não está definida")
+            "A variável de ambiente GOOGLE_SERVICE_ACCOUNT_KEY não está definida"
+        )
 
+    # Cria um arquivo temporário para usar com a biblioteca do Google
     key_path = "/tmp/service_account.json"
     with open(key_path, "w") as f:
         f.write(key_content)
 
-    creds = Credentials.from_service_account_file(key_path, scopes=SCOPES)
-    service = build("calendar", "v3", credentials=creds)
-
-    # key_path = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY_PATH")
+ # key_path = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY_PATH")
     # creds = Credentials.from_service_account_file(key_path, scopes=SCOPES)
     # service = build("calendar", "v3", credentials=creds)
+    creds = Credentials.from_service_account_file(key_path, scopes=SCOPES)
+    service = build("calendar", "v3", credentials=creds)
     return service
 
 
