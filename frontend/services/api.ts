@@ -11,7 +11,7 @@ export async function sendMessageToAPI(
     history: any[]
 ): Promise<AgentResponse> {
     console.log("BACKEND_URL", BACKEND_URL);
-    const res = await fetch(`${BACKEND_URL}/chat`, {
+    const res = await fetch(`${BACKEND_URL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, session_id: sessionId, history }),
