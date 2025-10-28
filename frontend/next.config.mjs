@@ -6,6 +6,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: process.env.BACKEND_URL + "/:path*", // URL do backend no Railway
+      },
+    ];
+  },
+};
 
-export default nextConfig
+export default nextConfig;
