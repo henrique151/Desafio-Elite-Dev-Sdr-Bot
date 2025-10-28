@@ -1,3 +1,4 @@
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export interface AgentResponse {
@@ -11,7 +12,7 @@ export async function sendMessageToAPI(
     history: any[]
 ): Promise<AgentResponse> {
     console.log("BACKEND_URL", BACKEND_URL);
-    const res = await fetch(`${BACKEND_URL}`, {
+    const res = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, session_id: sessionId, history }),
