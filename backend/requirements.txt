@@ -1,0 +1,13 @@
+dateparser
+fastapi
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-auth-oauthlib
+google-genai
+pydantic
+pytz
+requests
+uvicorn
+python-dotenv
+sqlalchemy

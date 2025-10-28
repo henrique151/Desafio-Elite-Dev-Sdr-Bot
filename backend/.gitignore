@@ -1,0 +1,9 @@
+.env
+
+venv
+__pycache__*
+
+token.pkl
+
+teste_pipe.py
+diagnostico_pipefy.py
