@@ -35,6 +35,9 @@ def get_google_calendar_service():
     creds = Credentials.from_service_account_file(key_path, scopes=SCOPES)
     service = build("calendar", "v3", credentials=creds)
 
+    # key_path = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY_PATH")
+    # creds = Credentials.from_service_account_file(key_path, scopes=SCOPES)
+    # service = build("calendar", "v3", credentials=creds)
     return service
 
 
