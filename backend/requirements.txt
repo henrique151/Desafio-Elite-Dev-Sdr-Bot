@@ -1,4 +1,3 @@
-dateparser
 fastapi
 google-api-python-client
 google-auth
@@ -11,3 +10,4 @@ requests
 uvicorn
 python-dotenv
 sqlalchemy
+packaging

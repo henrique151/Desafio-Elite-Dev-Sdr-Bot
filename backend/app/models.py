@@ -8,8 +8,7 @@ class HistoryPart(BaseModel):
     function_response: Optional[dict] = Field(None, alias="functionResponse")
 
     class Config:
-
-        allow_population_by_field_name = True
+        validate_by_name = True  
 
 
 class HistoryItem(BaseModel):
@@ -26,7 +25,7 @@ class AgentRequest(BaseModel):
     session_id: Optional[str] = Field(None, alias="session_id")
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True  #
 
 
 class AgentResponse(BaseModel):
