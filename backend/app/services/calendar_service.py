@@ -10,6 +10,7 @@ from googleapiclient.errors import HttpError
 from app.services.pipefy_service import atualizar_card_com_reuniao
 from app.utils.google_credentials import build_credentials_file
 from app.utils.date_utils import normalizar_data
+from google.oauth2.service_account import Credentials
 
 logger = logging.getLogger(__name__)
 
@@ -22,18 +23,19 @@ TIMEZONE = "America/Sao_Paulo"
 
 
 def get_google_calendar_service():
-    creds = None
-    if os.path.exists(TOKEN_FILE):
-        with open(TOKEN_FILE, 'rb') as token:
-            creds = pickle.load(token)
-    if not creds:
-        flow = InstalledAppFlow.from_client_secrets_file(
-            build_credentials_file(), SCOPES)
-        creds = flow.run_local_server(
-            port=8080, access_type="offline", prompt="consent")
-        with open(TOKEN_FILE, 'wb') as token:
-            pickle.dump(creds, token)
-    return build('calendar', 'v3', credentials=creds)
+    key_content = os.environ.get("GOOGLE_SERVICE_ACCOUNT_KEY")
+    if not key_content:
+        raise ValueError(
+            "A variável de ambiente GOOGLE_SERVICE_ACCOUNT_KEY não está definida")
+
+    key_path = "/tmp/service_account.json"
+    with open(key_path, "w") as f:
+        f.write(key_content)
+
+    creds = Credentials.from_service_account_file(key_path, scopes=SCOPES)
+    service = build("calendar", "v3", credentials=creds)
+
+    return service
 
 
 service = get_google_calendar_service()
