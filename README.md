@@ -1,10 +1,10 @@
-Perfeito! Aqui está uma versão completa, organizada e profissional do README para o seu projeto **SDR-Agendamento**, incorporando **dificuldades, soluções, instalação, setup e notas de deploy**.
+Perfeito! Aqui está o README reescrito e atualizado com a tabela de funcionalidades revisada, incluindo a persistência completa de sessão e transcrição via Supabase:
 
 ---
 
 # SDR-Agendamento
 
-Sistema de agendamento de reuniões automatizado, integrando Google Calendar, Pipefy e uma API de Inteligência Artificial (Gemini), com backend em **FastAPI** e frontend em **Next.js** com TypeScript e TailwindCSS.
+Sistema de agendamento de reuniões automatizado, integrando **Google Calendar**, **Pipefy** e uma API de Inteligência Artificial (Gemini), com backend em **FastAPI** e frontend em **Next.js** com TypeScript e TailwindCSS.
 
 ---
 
@@ -17,55 +17,70 @@ O SDR-Agendamento permite que leads agendem reuniões automaticamente, sugere ho
 * Integração com **Pipefy** para registrar leads e atualizar cards.
 * Respostas automáticas com IA (Gemini API).
 * Frontend interativo com **Next.js + TailwindCSS**.
+* Persistência de sessões e transcrições usando **Supabase**.
+
+
+## ⚙️ Funcionalidades do Projeto
+
+| Funcionalidade                                             | Status         | Descrição                                                                                   |
+| ---------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------- |
+| Agente conversacional (texto)                              | ✅ Cumprida     | Coleta dados do lead e confirma interesse.                                                  |
+| Sugestão de horários via Google Calendar                   | ✅ Cumprida     | Busca próximos 7 dias e oferece slots disponíveis.                                          |
+| Agendamento automático no Google Calendar                  | ✅ Cumprida     | Cria evento e gera link do Google Meet.                                                     |
+| Registro/atualização de leads no Pipefy                    | ✅ Cumprida     | Cria card ou atualiza card existente.                                                       |
+| Persistência de sessão e transcrição                       | ✅ Cumprida    | Armazena localmente (cookie/localStorage) e em banco de dados via **Supabase**, garantindo histórico completo. |
+| Integração com Gemini API                                  | ⚠️ Parcial     | Funcional, mas instável (regras de fallback implementadas).                                 |
+| Deploy frontend/backend                                    | ⚠️ Parcial     | Frontend em Vercel, backend em Render; comunicação precisa ser ajustada para produção.      |
+| Convites automáticos a emails externos via Service Account | ❌ Não cumprida | Google Workspace bloqueia sem Domain-Wide Delegation.                                       |
+
 
 ---
 
 ## ⚠️ Dificuldades Encontradas
 
-Durante o desenvolvimento, enfrentamos desafios que impactaram a implementação completa:
+Durante o desenvolvimento do SDR-Agendamento, enfrentamos desafios importantes que impactaram a implementação completa e o deploy do projeto:
 
 ### 1. Escolha da API de Inteligência Artificial
 
-* **Problema:** OpenAI é paga e não havia orçamento disponível.
-* **Solução adotada:** Gemini API, mas apresentou instabilidade (requisições lentas, sobrecarga e quedas).
-* **Impacto:** Funcionalidade de AI limitada e menos confiável.
+* **Problema:** A opção inicial seria utilizar a **OpenAI**, mas por questões financeiras, não foi possível usar a API paga.
+* **Solução adotada:** Optou-se pela **Gemini API** como alternativa gratuita.
+* **Desafios enfrentados:** Durante os testes, as requisições ficavam lentas, sobrecarregadas e, em alguns casos, a API chegava a cair.
+* **Impacto:** O uso da IA ficou limitado, instável e menos confiável, afetando a geração de respostas automáticas em tempo real.
 
 ### 2. Deploy do Webchat
 
-* Backend em **FastAPI** e frontend em **Next.js** exigem deploy separado:
+* **Configuração:** Backend em **FastAPI** (Python) e frontend em **Next.js + TypeScript + TailwindCSS**.
+* **Problema:** Para disponibilizar o projeto, foi necessário deploy em duas plataformas distintas:
 
-  * Backend em Render.
-  * Frontend em Vercel.
-* Problemas de comunicação entre backend e frontend impediram o deploy completo.
+  * **Backend:** Render
+  * **Frontend:** Vercel
+* **Desafio:** Problemas de comunicação entre backend e frontend impediram que o projeto funcionasse plenamente em produção.
+* **Impacto:** Apesar de funcionar localmente, o deploy completo não foi alcançado.
 
 ### 3. Plataforma de Agendamento
 
-* Inicialmente foi testada **Calendly**, mas não permitia gerar links automáticos.
-* Migração para **Google Calendar**, porém:
-
-  * Tentativa de usar Service Account com **Domain-Wide Delegation** falhou.
-  * Convites para emails externos não foram possíveis devido a restrições de autenticação.
-* Impacto: Automação completa de agendamento e envio de convites limitada.
+* **Testes iniciais:** Utilização do **Calendly**, que não permitia gerar links de reunião de forma automática.
+* **Migração:** Passou-se a usar **Google Calendar**.
+* **Problema de autenticação:** Tentativa de utilizar **Service Account com Domain-Wide Delegation** falhou, pois contas de serviço **não podem enviar convites para emails externos** sem permissões específicas.
+* **Tentativa de solução:** Considerou-se usar **Cal.com**, mas não houve tempo suficiente para implementação.
+* **Impacto:** A automação completa de agendamento e envio de convites externos não foi alcançada. A versão local funcionava, mas ao tentar deploy, os mesmos problemas de autenticação impediram o teste remoto.
 
 ### 4. Testes Locais vs. Produção
 
-* Backend funcionava localmente, mas ao realizar deploy, falhou por erros de autenticação e comunicação com frontend.
+* O backend funcionava corretamente em ambiente local.
+* Após mudanças para deploy, surgiram erros de autenticação com o Google Calendar e problemas de comunicação com o frontend.
+* **Impacto:** Não foi possível realizar testes de ponta a ponta em produção.
 
-### 5. O que ainda falta
 
-* Resolver autenticação do Google Calendar para convites automáticos a emails externos.
-* Melhorar estabilidade do uso da Gemini API ou substituir por alternativa confiável.
-* Implementar deploy unificado para comunicação confiável entre frontend e backend.
-* Testar ferramentas alternativas de agendamento (ex: **Cal.com**).
 
 ---
 
-## ⚙️ Instalação e Configuração do Projeto
+## ⚙️ Instalação e Configuração
 
 ### 1. Clone o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/henrique151/Desafio-Elite-Dev-Sdr-Bot.git
 cd sdr-elite-dev-ia/backend
 ```
 
@@ -85,7 +100,7 @@ pip install -r requirements.txt
 
 ### 4. Configurar variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do backend com:
+Crie um arquivo `.env` na raiz do backend:
 
 ```env
 GOOGLE_CALENDAR_ID="SEU_CALENDAR_ID"
@@ -95,19 +110,21 @@ GOOGLE_OAUTH_TOKEN="app/credentials/token.pkl"
 PIPEFY_ACCESS_TOKEN="SEU_PIPEFY_ACCESS_TOKEN"
 PIPEFY_PRE_SALES_PIPE_ID="SEU_PIPEFY_PIPE_ID"
 GEMINI_API_KEY="SUA_CHAVE_GEMINI"
+SUPABASE_URL="SUA_URL_SUPABASE"
+SUPABASE_KEY="SUA_CHAVE_SUPABASE"
 FRONTEND_URL="http://localhost:3000"
 ```
 
 ### 5. Gerar token OAuth do Google Calendar
 
-1. Coloque o arquivo `credentials.json` do Google na pasta `app/credentials/`.
-2. Execute o script de autenticação para gerar `token.pkl`:
+1. Coloque `credentials.json` do Google na pasta `app/credentials/`.
+2. Execute o script de autenticação:
 
 ```bash
 python -m app.services.calendar_service
 ```
 
-3. Siga as instruções no navegador para autenticar a conta Google.
+3. Siga as instruções no navegador para gerar `token.pkl`.
 
 ### 6. Rodar o backend
 
@@ -123,31 +140,62 @@ npm install
 npm run dev
 ```
 
-* Acesse `http://localhost:3000` para testar o frontend.
+Acesse `http://localhost:3000`.
 
 ---
 
 ## 🔗 Fluxo de Funcionamento
 
-1. Usuário escolhe horário para reunião.
-2. Backend verifica disponibilidade no Google Calendar.
-3. Se disponível:
+1. Usuário conversa com o agente.
+2. Agente coleta dados do lead (nome, email, empresa, dor/necessidade, interesse).
+3. Verifica disponibilidade de horários no **Google Calendar**.
+4. Se disponível:
 
-   * Cria evento no Google Calendar.
-   * Envia link da reunião via Pipefy e registra lead.
-4. Se ocupado:
+   * Agenda reunião automaticamente.
+   * Retorna link do Google Meet.
+   * Registra ou atualiza lead no **Pipefy**.
+5. Se ocupado:
 
    * Sugere horários alternativos.
-   * Permite nova tentativa de agendamento.
+6. Sessão e transcrição são armazenadas localmente e no **Supabase**.
 
 ---
 
-## 📌 Observações
 
-* Funcionalidade completa de envio de convites automáticos para emails externos depende de ajustes na autenticação do Google Calendar.
-* A versão de produção precisa de comunicação entre Render (backend) e Vercel (frontend) para funcionar corretamente.
-* Instabilidade da Gemini API pode impactar respostas de AI.
+## 📝 Regras de Negócio
+
+* Critério de gatilho para reunião: **cliente confirma explicitamente interesse**.
+* Script sugerido:
+
+  1. Apresentação do agente e do serviço.
+  2. Perguntas de descoberta (nome, empresa, necessidade, prazo).
+  3. Pergunta direta: "Gostaria de seguir com uma conversa para iniciar o projeto / adquirir o produto?"
+  4. Se o cliente confirma:
+
+     * Oferece 2-3 horários disponíveis.
+     * Agenda automaticamente.
+     * Registra evento e envia link.
+  5. Se não confirma, registra no Pipefy e encerra cordialmente.
 
 ---
 
+## 💻 Tecnologias Utilizadas
+
+* **Frontend:** Next.js, TypeScript, TailwindCSS, React
+* **Backend:** FastAPI, Python
+* **Banco de Dados:** Supabase
+* **Integrações:** Google Calendar, Google Meet, Pipefy, Gemini API
+* **Deploy:** Render (backend), Vercel (frontend)
+
+---
+
+## ✅ Critérios de Sucesso
+
+* Conversa natural com o lead.
+* Confirmação explícita de interesse aciona agendamento.
+* Evento criado no Google Calendar com link do Meet.
+* Leads registrados/atualizados no Pipefy corretamente.
+* Histórico de transcrição completo persistido.
+
+---
 
